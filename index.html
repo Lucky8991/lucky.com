@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>支撑阻力位计算器</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         function calculate() {
             let name = document.getElementById("name").value;
@@ -56,63 +55,68 @@
             XLSX.writeFile(wb, "pivot_points.xlsx");
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
             padding: 20px;
         }
         h2 {
-            color: #58a6ff;
+            color: #4a90e2;
+            margin-bottom: 20px;
         }
         label {
             display: block;
-            margin: 10px 0;
-            font-size: 18px;
+            margin: 15px 0;
+            font-size: 16px;
+            color: #555;
         }
         input {
-            background: #161b22;
-            border: 1px solid #58a6ff;
+            background: #fff;
+            border: 1px solid #ddd;
             padding: 10px;
-            color: #c9d1d9;
-            border-radius: 5px;
-            font-size: 16px;
+            color: #333;
+            border-radius: 4px;
+            font-size: 14px;
             width: 200px;
+            margin-top: 5px;
         }
         input:focus {
-            border-color: #f778ba;
+            border-color: #4a90e2;
             outline: none;
-            box-shadow: 0 0 10px #f778ba;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
         }
         button {
-            background: linear-gradient(45deg, #58a6ff, #f778ba);
+            background-color: #4a90e2;
             border: none;
             padding: 10px 20px;
             color: white;
             font-size: 16px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 4px;
             margin: 10px;
-            transition: 0.3s;
+            transition: background-color 0.3s;
         }
         button:hover {
-            box-shadow: 0 0 15px #58a6ff;
+            background-color: #357abd;
         }
         .results {
-            margin-top: 20px;
-            font-size: 18px;
-            background: #161b22;
-            padding: 15px;
+            margin-top: 30px;
+            font-size: 16px;
+            background: #fff;
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px #58a6ff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: inline-block;
+            text-align: left;
         }
         .result-value {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
-            color: #f778ba;
+            color: #4a90e2;
         }
     </style>
 </head>
