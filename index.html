@@ -6,36 +6,36 @@
     <title>支撑阻力位计算器</title>
     <script>
         async function fetchStockData() {
-        let stockCode = document.getElementById("stockCode").value.trim();
-        if (!stockCode) {
-            alert("请输入股票代码！");
-            return;
-        }
-
-        try {
-            let response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stockCode}?interval=1d`);
-            let data = await response.json();
-
-            if (!data.chart || !data.chart.result) {
-                alert("获取数据失败，请检查股票代码！");
+            let stockCode = document.getElementById("stockCode").value.trim();
+            if (!stockCode) {
+                alert("请输入股票代码！");
                 return;
             }
-
-            let result = data.chart.result[0];
-            let meta = result.meta;
-            let high = meta.regularMarketDayHigh;
-            let low = meta.regularMarketDayLow;
-            let close = meta.regularMarketPreviousClose;
-
-            document.getElementById("high").value = high;
-            document.getElementById("low").value = low;
-            document.getElementById("close").value = close;
-
-        } catch (error) {
-            alert("获取股票数据失败！");
-            console.error(error);
+    
+            try {
+                let response = await fetch(`http://hq.sinajs.cn/list=${stockCode}`);
+                let data = await response.json();
+    
+                if (!data.chart || !data.chart.result) {
+                    alert("获取数据失败，请检查股票代码！");
+                    return;
+                }
+    
+                let result = data.chart.result[0];
+                let meta = result.meta;
+                let high = meta.regularMarketDayHigh;
+                let low = meta.regularMarketDayLow;
+                let close = meta.regularMarketPreviousClose;
+    
+                document.getElementById("high").value = high;
+                document.getElementById("low").value = low;
+                document.getElementById("close").value = close;
+    
+            } catch (error) {
+                alert("获取股票数据失败！");
+                console.error(error);
+            }
         }
-    }
         function calculate() {
             let name = document.getElementById("name").value.trim();
             let high = parseFloat(document.getElementById("high").value);
