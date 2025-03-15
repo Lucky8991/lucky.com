@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支撑阻力位计算器</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        h2 {
+            color: #58a6ff;
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        input {
+            background: #161b22;
+            border: 1px solid #58a6ff;
+            padding: 10px;
+            color: #c9d1d9;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 200px;
+        }
+        input:focus {
+            border-color: #f778ba;
+            outline: none;
+            box-shadow: 0 0 10px #f778ba;
+        }
+        button {
+            background: linear-gradient(45deg, #58a6ff, #f778ba);
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+            transition: 0.3s;
+        }
+        button:hover {
+            box-shadow: 0 0 15px #58a6ff;
+        }
+        .results {
+            margin-top: 20px;
+            font-size: 18px;
+            background: #161b22;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #58a6ff;
+            display: inline-block;
+        }
+        .result-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #f778ba;
+        }
+    </style>
+</head>
+<body>
+    <h2>支撑阻力位计算器</h2>
+    <label>名称: <input type="text" id="name"></label>
+    <label>最高价: <input type="number" id="high" step="0.01"></label>
+    <label>最低价: <input type="number" id="low" step="0.01"></label>
+    <label>收盘价: <input type="number" id="close" step="0.01"></label>
+    <button onclick="calculate()">计算</button>
+    <button onclick="exportToExcel()">导出Excel</button>
+    <div class="results">
+        <h3>计算结果：</h3>
+        <p>R3: <span id="r3" class="result-value"></span></p>
+        <p>R2: <span id="r2" class="result-value"></span></p>
+        <p>R1: <span id="r1" class="result-value"></span></p>
+        <p>P : <span id="p" class="result-value"></span></p>
+        <p>S1: <span id="s1" class="result-value"></span></p>
+        <p>S2: <span id="s2" class="result-value"></span></p>
+        <p>S3: <span id="s3" class="result-value"></span></p>
+    </div>
+</body>
+</html>
