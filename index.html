@@ -31,6 +31,13 @@
             document.getElementById("s1").innerText = s1.toFixed(2);
             document.getElementById("s2").innerText = s2.toFixed(2);
             document.getElementById("s3").innerText = s3.toFixed(2);
+
+            let resultTitle = document.getElementById("result-title");
+            if (name) {
+                resultTitle.innerText = name;
+            } else {
+                resultTitle.innerText = "计算结果：";
+            }
         }
 
         function exportToExcel() {
@@ -136,7 +143,7 @@
     <div class="container">
         <h2>支撑阻力位计算器</h2>
         <div class="input-section">
-            <label><span>名&nbsp;&nbsp;称</span><input type="text" id="name"></label>
+            <label><span>名称&nbsp;&nbsp;</span><input type="text" id="name"></label>
             <label>最高价: <input type="number" id="high" step="0.01"></label>
             <label>最低价: <input type="number" id="low" step="0.01"></label>
             <label>收盘价: <input type="number" id="close" step="0.01"></label>
@@ -144,7 +151,7 @@
             <button onclick="exportToExcel()">导出Excel</button>
         </div>
         <div class="results">
-            <h3>计算结果：</h3>
+            <h3 id="result-title">计算结果：</h3>
             <p>R3: <span id="r3" class="result-value"></span></p>
             <p>R2: <span id="r2" class="result-value"></span></p>
             <p>R1: <span id="r1" class="result-value"></span></p>
