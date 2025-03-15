@@ -25,13 +25,24 @@
             let s2 = pivot - (high - low);
             let s3 = low - 2 * (high - pivot);
             
+            function calculatePercentage(value) {
+                return (((value - close) / close) * 100).toFixed(2) + "%";
+            }
+            
             document.getElementById("r3").innerText = r3.toFixed(2);
+            document.getElementById("r3-percent").innerText = calculatePercentage(r3);
             document.getElementById("r2").innerText = r2.toFixed(2);
+            document.getElementById("r2-percent").innerText = calculatePercentage(r2);
             document.getElementById("r1").innerText = r1.toFixed(2);
+            document.getElementById("r1-percent").innerText = calculatePercentage(r1);
             document.getElementById("p").innerText = pivot.toFixed(2);
+            document.getElementById("p-percent").innerText = calculatePercentage(pivot);
             document.getElementById("s1").innerText = s1.toFixed(2);
+            document.getElementById("s1-percent").innerText = calculatePercentage(s1);
             document.getElementById("s2").innerText = s2.toFixed(2);
+            document.getElementById("s2-percent").innerText = calculatePercentage(s2);
             document.getElementById("s3").innerText = s3.toFixed(2);
+            document.getElementById("s3-percent").innerText = calculatePercentage(s3);
             
             let resultTitle = document.getElementById("result-title");
             if (name) {
@@ -47,8 +58,14 @@
             document.getElementById("s1").style.color = greenColor;
             document.getElementById("s2").style.color = greenColor;
             document.getElementById("s3").style.color = greenColor;
+            document.getElementById("s1-percent").style.color = greenColor;
+            document.getElementById("s2-percent").style.color = greenColor;
+            document.getElementById("s3-percent").style.color = greenColor;
             
-            pivotElement.style.color = pivot < close ? greenColor : defaultColor;
+            let percentElements = ["p", "p-percent"];
+            percentElements.forEach(id => {
+                document.getElementById(id).style.color = pivot < close ? greenColor : defaultColor;
+            });
         }
     </script>
     <style>
@@ -73,59 +90,13 @@
             border-radius: 8px;
             margin: 10px auto;
             width: 90%;
-            max-width: 400px;
+            max-width: 420px;
         }
         h2 {
             color: #58a6ff;
         }
-        label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 10px auto;
-            font-size: 18px;
-            width: 90%;
-            max-width: 400px;
-        }
-        input {
-            background: #161b22;
-            border: 1px solid #58a6ff;
-            padding: 10px;
-            color: #c9d1d9;
-            border-radius: 5px;
-            font-size: 16px;
-            width: 200px;
-        }
-        input:focus {
-            border-color: #f778ba;
-            outline: none;
-            box-shadow: 0 0 10px #f778ba;
-        }
-        button {
-            background: linear-gradient(45deg, #58a6ff, #f778ba);
-            border: none;
-            padding: 10px 20px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin: 10px;
-            transition: 0.3s;
-        }
-        button:hover {
-            box-shadow: 0 0 15px #58a6ff;
-        }
-        .results {
-            font-size: 18px;
-            background: #161b22;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #58a6ff;
-            width: 90%;
-            max-width: 400px;
-        }
-        .result-value {
-            font-size: 22px;
+        .result-value, .result-percent {
+            font-size: 20px;
             font-weight: bold;
         }
     </style>
@@ -139,17 +110,16 @@
             <label><span>最低价:</span> <input type="number" id="low" step="0.01"></label>
             <label><span>收盘价:</span> <input type="number" id="close" step="0.01"></label>
             <button onclick="calculate()">计算</button>
-            <button onclick="exportToExcel()">导出Excel</button>
         </div>
         <div class="results">
             <h3 id="result-title">计算结果：</h3>
-            <p>R3: <span id="r3" class="result-value"></span></p>
-            <p>R2: <span id="r2" class="result-value"></span></p>
-            <p>R1: <span id="r1" class="result-value"></span></p>
-            <p>P : <span id="p" class="result-value"></span></p>
-            <p>S1: <span id="s1" class="result-value"></span></p>
-            <p>S2: <span id="s2" class="result-value"></span></p>
-            <p>S3: <span id="s3" class="result-value"></span></p>
+            <p>R3: <span id="r3" class="result-value"></span> (<span id="r3-percent" class="result-percent"></span>)</p>
+            <p>R2: <span id="r2" class="result-value"></span> (<span id="r2-percent" class="result-percent"></span>)</p>
+            <p>R1: <span id="r1" class="result-value"></span> (<span id="r1-percent" class="result-percent"></span>)</p>
+            <p>P : <span id="p" class="result-value"></span> (<span id="p-percent" class="result-percent"></span>)</p>
+            <p>S1: <span id="s1" class="result-value"></span> (<span id="s1-percent" class="result-percent"></span>)</p>
+            <p>S2: <span id="s2" class="result-value"></span> (<span id="s2-percent" class="result-percent"></span>)</p>
+            <p>S3: <span id="s3" class="result-value"></span> (<span id="s3-percent" class="result-percent"></span>)</p>
         </div>
     </div>
 </body>
