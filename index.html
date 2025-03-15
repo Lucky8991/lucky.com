@@ -6,7 +6,7 @@
     <title>支撑阻力位计算器</title>
     <script>
         function calculate() {
-            let name = document.getElementById("name").value;
+            let name = document.getElementById("name").value.trim();
             let high = parseFloat(document.getElementById("high").value);
             let low = parseFloat(document.getElementById("low").value);
             let close = parseFloat(document.getElementById("close").value);
@@ -17,54 +17,56 @@
             }
             
             let pivot = (high + low + close) / 3;
-            let r1 = 2 * pivot - low;
-            let r2 = pivot + (high - low);
-            let r3 = high + 2 * (pivot - low);
-            let s1 = 2 * pivot - high;
-            let s2 = pivot - (high - low);
-            let s3 = low - 2 * (high - pivot);
-
+            let levels = {
+                r1: 2 * pivot - low,
+                r2: pivot + (high - low),
+                r3: high + 2 * (pivot - low),
+                s1: 2 * pivot - high,
+                s2: pivot - (high - low),
+                s3: low - 2 * (high - pivot),
+            };
+            
             function calculatePercentage(value) {
-                return (((value - close) / close) * 100).toFixed(2) + "%";
+                let percent = ((value - close) / close) * 100;
+                if (percent > 10) {
+                    value = close * 1.1;
+                    percent = 10;
+                } else if (percent < -10) {
+                    value = close * 0.9;
+                    percent = -10;
+                }
+                return { value: value.toFixed(2), percent: percent.toFixed(2) + "%" };
             }
             
-            document.getElementById("r3").innerText = r3.toFixed(2);
-            document.getElementById("r3-percent").innerText = calculatePercentage(r3);
-            document.getElementById("r2").innerText = r2.toFixed(2);
-            document.getElementById("r2-percent").innerText = calculatePercentage(r2);
-            document.getElementById("r1").innerText = r1.toFixed(2);
-            document.getElementById("r1-percent").innerText = calculatePercentage(r1);
+            Object.keys(levels).forEach(key => {
+                let result = calculatePercentage(levels[key]);
+                document.getElementById(key).innerText = result.value;
+                document.getElementById(key + "-percent").innerText = result.percent;
+            });
+            
             document.getElementById("p").innerText = pivot.toFixed(2);
-            document.getElementById("p-percent").innerText = calculatePercentage(pivot);
-            document.getElementById("s1").innerText = s1.toFixed(2);
-            document.getElementById("s1-percent").innerText = calculatePercentage(s1);
-            document.getElementById("s2").innerText = s2.toFixed(2);
-            document.getElementById("s2-percent").innerText = calculatePercentage(s2);
-            document.getElementById("s3").innerText = s3.toFixed(2);
-            document.getElementById("s3-percent").innerText = calculatePercentage(s3);
-
+            document.getElementById("p-percent").innerText = calculatePercentage(pivot).percent;
+            
             let resultTitle = document.getElementById("result-title");
-            if (name) {
-                resultTitle.innerText = name;
-            } else {
-                resultTitle.innerText = "计算结果：";
-            }
-
-            let pivotElement = document.getElementById("p");
+            resultTitle.innerText = name || "计算结果：";
+            
             let greenColor = "#50fa7b";
             let defaultColor = "#f778ba";
             
-            document.getElementById("s1").style.color = greenColor;
-            document.getElementById("s2").style.color = greenColor;
-            document.getElementById("s3").style.color = greenColor;
-            document.getElementById("s1-percent").style.color = greenColor;
-            document.getElementById("s2-percent").style.color = greenColor;
-            document.getElementById("s3-percent").style.color = greenColor;
-
-            let percentElements = ["p", "p-percent"];
-            percentElements.forEach(id => {
-                document.getElementById(id).style.color = pivot < close ? greenColor : defaultColor;
+            ["s1", "s2", "s3"].forEach(id => {
+                document.getElementById(id).style.color = greenColor;
+                document.getElementById(id + "-percent").style.color = greenColor;
             });
+            
+            let pivotElement = document.getElementById("p");
+            let percentElement = document.getElementById("p-percent");
+            if (pivot < close) {
+                pivotElement.style.color = greenColor;
+                percentElement.style.color = greenColor;
+            } else {
+                pivotElement.style.color = defaultColor;
+                percentElement.style.color = defaultColor;
+            }
         }
 
         function exportToExcel() {
