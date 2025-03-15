@@ -57,6 +57,11 @@
                 document.getElementById(id).style.color = greenColor;
                 document.getElementById(id + "-percent").style.color = greenColor;
             });
+
+            ["r1", "r2", "r3"].forEach(id => {
+                document.getElementById(id).style.color = defaultColor;
+                document.getElementById(id + "-percent").style.color = defaultColor;
+            });
             
             let pivotElement = document.getElementById("p");
             let percentElement = document.getElementById("p-percent");
