@@ -23,14 +23,25 @@
             let s1 = 2 * pivot - high;
             let s2 = pivot - (high - low);
             let s3 = low - 2 * (high - pivot);
+
+            function calculatePercentage(value) {
+                return (((value - close) / close) * 100).toFixed(2) + "%";
+            }
             
             document.getElementById("r3").innerText = r3.toFixed(2);
+            document.getElementById("r3-percent").innerText = calculatePercentage(r3);
             document.getElementById("r2").innerText = r2.toFixed(2);
+            document.getElementById("r2-percent").innerText = calculatePercentage(r2);
             document.getElementById("r1").innerText = r1.toFixed(2);
+            document.getElementById("r1-percent").innerText = calculatePercentage(r1);
             document.getElementById("p").innerText = pivot.toFixed(2);
+            document.getElementById("p-percent").innerText = calculatePercentage(pivot);
             document.getElementById("s1").innerText = s1.toFixed(2);
+            document.getElementById("s1-percent").innerText = calculatePercentage(s1);
             document.getElementById("s2").innerText = s2.toFixed(2);
+            document.getElementById("s2-percent").innerText = calculatePercentage(s2);
             document.getElementById("s3").innerText = s3.toFixed(2);
+            document.getElementById("s3-percent").innerText = calculatePercentage(s3);
 
             let resultTitle = document.getElementById("result-title");
             if (name) {
@@ -38,6 +49,22 @@
             } else {
                 resultTitle.innerText = "计算结果：";
             }
+
+            let pivotElement = document.getElementById("p");
+            let greenColor = "#50fa7b";
+            let defaultColor = "#f778ba";
+            
+            document.getElementById("s1").style.color = greenColor;
+            document.getElementById("s2").style.color = greenColor;
+            document.getElementById("s3").style.color = greenColor;
+            document.getElementById("s1-percent").style.color = greenColor;
+            document.getElementById("s2-percent").style.color = greenColor;
+            document.getElementById("s3-percent").style.color = greenColor;
+
+            let percentElements = ["p", "p-percent"];
+            percentElements.forEach(id => {
+                document.getElementById(id).style.color = pivot < close ? greenColor : defaultColor;
+            });
         }
 
         function exportToExcel() {
@@ -152,13 +179,13 @@
         </div>
         <div class="results">
             <h3 id="result-title">计算结果：</h3>
-            <p>R3: <span id="r3" class="result-value"></span></p>
-            <p>R2: <span id="r2" class="result-value"></span></p>
-            <p>R1: <span id="r1" class="result-value"></span></p>
-            <p>P : <span id="p" class="result-value"></span></p>
-            <p>S1: <span id="s1" class="result-value"></span></p>
-            <p>S2: <span id="s2" class="result-value"></span></p>
-            <p>S3: <span id="s3" class="result-value"></span></p>
+            <p>R3: <span id="r3" class="result-value"></span> (<span id="r3-percent" class="result-percent"></span>)</p>
+            <p>R2: <span id="r2" class="result-value"></span> (<span id="r2-percent" class="result-percent"></span>)</p>
+            <p>R1: <span id="r1" class="result-value"></span> (<span id="r1-percent" class="result-percent"></span>)</p>
+            <p>P : <span id="p" class="result-value"></span> (<span id="p-percent" class="result-percent"></span>)</p>
+            <p>S1: <span id="s1" class="result-value"></span> (<span id="s1-percent" class="result-percent"></span>)</p>
+            <p>S2: <span id="s2" class="result-value"></span> (<span id="s2-percent" class="result-percent"></span>)</p>
+            <p>S3: <span id="s3" class="result-value"></span> (<span id="s3-percent" class="result-percent"></span>)</p>
         </div>
     </div>
 </body>
