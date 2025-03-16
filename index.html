@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>支撑阻力位计算器</title>
     <script>
+        async function fetchStockData() {
+            let stockCode = document.getElementById("stockCode").value.trim();
+            if (!stockCode) {
+                alert("请输入股票代码！");
+                return;
+            }
+    
+            try {
+                let response = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockCode}&apikey=YKDOF1UZDWDRGRQW`);
+                let data = await response.json();
+    
+                if (!data || !data["Global Quote"]) {
+                    alert("获取数据失败，请检查股票代码！");
+                    return;
+                }
+    
+                let result = data["Global Quote"];
+                let high = result["03. high"];
+                let low = result["04. low"];
+                let close = result["05. price"];
+    
+                document.getElementById("high").value = high;
+                document.getElementById("low").value = low;
+                document.getElementById("close").value = close;
+    
+            } catch (error) {
+                alert("获取股票数据失败！");
+                console.error(error);
+            }
+        }
         function calculate() {
             let name = document.getElementById("name").value.trim();
             let high = parseFloat(document.getElementById("high").value);
@@ -181,6 +211,8 @@
             <label>最高价: <input type="number" id="high" step="0.01"></label>
             <label>最低价: <input type="number" id="low" step="0.01"></label>
             <label>收盘价: <input type="number" id="close" step="0.01"></label>
+            <label>股票代码: <input type="text" id="stockCode"></label>
+            <button onclick="fetchStockData()">获取数据</button>
             <button onclick="calculate()">计算</button>
             <button onclick="exportToExcel()">导出Excel</button>
         </div>
