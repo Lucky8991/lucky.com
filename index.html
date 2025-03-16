@@ -13,22 +13,28 @@
             }
     
             try {
-                let response = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockCode}&apikey=YKDOF1UZDWDRGRQW`);
+                // 判断股票代码是沪市（6开头）还是深市（0或3开头）
+                let prefix = stockCode.startsWith("6") ? "1" : "0"; // 沪市: 1, 深市: 0
+                // 拼接成东方财富 API 所需的格式
+                let eastmoneyStockCode = `${prefix}.${stockCode}`;
+                let response = await fetch(`http://push2.eastmoney.com/api/qt/stock/get?secid=${eastmoneyStockCode}`);
                 let data = await response.json();
     
-                if (!data || !data["Global Quote"]) {
+                if (!data) {
                     alert("获取数据失败，请检查股票代码！");
                     return;
                 }
     
-                let result = data["Global Quote"];
-                let high = result["03. high"];
-                let low = result["04. low"];
-                let close = result["05. price"];
+                let result = data;
+                let high = result["f44"];
+                let low = result["f45"];
+                let close = result["f43"];
+                let name = result["f58"];
     
                 document.getElementById("high").value = high;
                 document.getElementById("low").value = low;
                 document.getElementById("close").value = close;
+                document.getElementById("name").value = name;
     
             } catch (error) {
                 alert("获取股票数据失败！");
