@@ -17,7 +17,7 @@
                 let prefix = stockCode.startsWith("6") ? "1" : "0"; // 沪市: 1, 深市: 0
                 // 拼接成东方财富 API 所需的格式
                 let eastmoneyStockCode = `${prefix}.${stockCode}`;
-                let response = await fetch(`http://push2.eastmoney.com/api/qt/stock/get?secid=${eastmoneyStockCode}`);
+                let response = await fetch(`https://push2.eastmoney.com/api/qt/stock/get?secid=${eastmoneyStockCode}`);
                 let data = await response.json();
     
                 if (!data) {
