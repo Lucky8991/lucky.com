@@ -20,12 +20,12 @@
                 let response = await fetch(`https://push2.eastmoney.com/api/qt/stock/get?secid=${eastmoneyStockCode}`);
                 let data = await response.json();
     
-                if (!data) {
+                if (!data || !data.data) {
                     alert("获取数据失败，请检查股票代码！");
                     return;
                 }
     
-                let result = data;
+                let result = data.data;
                 let high = result["f44"];
                 let low = result["f45"];
                 let close = result["f43"];
