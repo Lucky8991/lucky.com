@@ -56,7 +56,7 @@
                 }
     
                 let result = data.data;
-                let parsedData = result.klines.map(line => line.split(','));
+                let parsedData = result.klines[0].split(',');
                 let high = parsedData[2];
                 let low = parsedData[3];
                 let close = parsedData[1];
