@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>支撑阻力位计算器</title>
     <script>
+        function getDateStr() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            
+            // 获取当前时间小时
+            const hour = now.getHours();
+            
+            // 计算今天的日期字符串
+            let todayStr = `${year}${month}${day}`;
+            
+            // 如果当前时间是下午三点以后，直接返回今天的日期
+            if (hour >= 15) {
+                return todayStr;
+            }
+            
+            // 否则，计算上一个工作日
+            let previousDate = new Date(now);
+            do {
+                previousDate.setDate(previousDate.getDate() - 1);
+            } while (previousDate.getDay() === 0 || previousDate.getDay() === 6); // 排除周六、周日
+            
+            const prevYear = previousDate.getFullYear();
+            const prevMonth = String(previousDate.getMonth() + 1).padStart(2, '0');
+            const prevDay = String(previousDate.getDate()).padStart(2, '0');
+            
+            return `${prevYear}${prevMonth}${prevDay}`;
+        }
         async function fetchStockData() {
             let stockCode = document.getElementById("stockCode").value.trim();
             if (!stockCode) {
@@ -17,7 +46,8 @@
                 let prefix = stockCode.startsWith("6") ? "1" : "0"; // 沪市: 1, 深市: 0
                 // 拼接成东方财富 API 所需的格式
                 let eastmoneyStockCode = `${prefix}.${stockCode}`;
-                let response = await fetch(`https://push2.eastmoney.com/api/qt/stock/get?secid=${eastmoneyStockCode}`);
+                let timestr = getDateStr();
+                let response = await fetch(`https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${eastmoneyStockCode}&fields1=f1,f2,f3,f4,f5&fields2=f51,f54,f55,f53&klt=101&fqt=1&beg=${timestr}&end=${timestr}&ut=fa5fd1943c7b386f172d6893dbfba10b`);
                 let data = await response.json();
     
                 if (!data || !data.data) {
@@ -26,10 +56,11 @@
                 }
     
                 let result = data.data;
-                let high = result["f44"] / 100;
-                let low = result["f45"] / 100;
-                let close = result["f43"] / 100;
-                let name = result["f58"];
+                let parsedData = result.klines.map(line => line.split(','));
+                let high = parsedData[2];
+                let low = parsedData[3];
+                let close = parsedData[1];
+                let name = result.name;
     
                 document.getElementById("high").value = high;
                 document.getElementById("low").value = low;
